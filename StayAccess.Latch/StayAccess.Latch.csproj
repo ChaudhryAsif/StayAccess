@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="Interfaces\ILatchReservationService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nancy" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StayAccess.DAL\StayAccess.DAL.csproj" />
+    <ProjectReference Include="..\StayAccess.DTO\StayAccess.DTO.csproj" />
+    <ProjectReference Include="..\StayAccess.Tools\StayAccess.Tools.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CL.Common">
+      <HintPath>..\StayAccess.Tools\lib\CL.Common.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

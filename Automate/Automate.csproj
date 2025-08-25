@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <UserSecretsId>3df900f2-2466-40e8-9f5b-cd78e20fc08d</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CrystalQuartz.AspNetCore" Version="6.8.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.1" />
+    <PackageReference Include="Quartz" Version="3.3.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StayAccess.Arches\StayAccess.Arches.csproj" />
+    <ProjectReference Include="..\StayAccess.BLL\StayAccess.BLL.csproj" />
+    <ProjectReference Include="..\StayAccess.DAL\StayAccess.DAL.csproj" />
+    <ProjectReference Include="..\StayAccess.Latch\StayAccess.Latch.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CL.Common">
+      <HintPath>..\StayAccess.Tools\lib\CL.Common.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
