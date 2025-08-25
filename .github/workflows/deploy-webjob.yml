@@ -33,7 +33,7 @@ jobs:
           mkdir -p package/App_Data/jobs/continuous/Automate
           cp -r ./publish/* package/App_Data/jobs/continuous/Automate/
           echo "@echo off" > package/App_Data/jobs/continuous/Automate/run.cmd
-          echo "dotnet MLModelApi.dll" >> package/App_Data/jobs/continuous/Automate/run.cmd
+          echo "dotnet Automate.dll" >> package/App_Data/jobs/continuous/Automate/run.cmd
 
       - name: Zip package
         run: |
