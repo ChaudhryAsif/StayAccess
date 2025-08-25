@@ -26,7 +26,7 @@ namespace Automate.Jobs
 
             try
             {
-                // create scope
+                // create scope.
                 using var scope = serviceProvider.CreateScope();
                 loggerService = scope.ServiceProvider.GetRequiredService<ILoggerService<LogsCleanUpJob>>();
                 logsCleanUpService = scope.ServiceProvider.GetRequiredService<ILogsCleanUpService>();
