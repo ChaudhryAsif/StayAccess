@@ -29,7 +29,7 @@ namespace StayAccess.Api.Controllers
             {
                 var response = await _httpClientService.PostAsync(loginRequest, "auth/login", false);
 
-                // if http request fails for login
+                // if http request fails for login.
                 if (!response.IsSuccessStatusCode)
                     throw new Exception(response.ReasonPhrase);
 
