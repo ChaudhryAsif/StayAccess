@@ -3,7 +3,10 @@ name: Deploy Continuous WebJob
 on:
   push:
     branches:
-      - main   # change if you use a different branch
+      - main
+    paths:
+      - 'StayAccess/Automate/**'
+  workflow_dispatch:   # allow manual trigger too
 
 jobs:
   build:
@@ -19,13 +22,13 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore ./Automate/Automate.csproj
+        run: dotnet restore StayAccess/Automate/Automate.csproj
 
       - name: Build
-        run: dotnet build ./Automate/Automate.csproj --configuration Release --no-restore
+        run: dotnet build StayAccess/Automate/Automate.csproj --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ./Automate/Automate.csproj -c Release -o ./publish
+        run: dotnet publish StayAccess/Automate/Automate.csproj -c Release -o ./publish
 
       # Prepare WebJob folder structure
       - name: Prepare WebJob package
