@@ -1,0 +1,66 @@
+name: Deploy Continuous WebJob
+
+on:
+  push:
+    branches:
+      - main   # change if you use a different branch
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore ./StayAccess/StayAccess.csproj
+
+      - name: Build
+        run: dotnet build ./StayAccess/StayAccess.csproj --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish ./StayAccess/StayAccess.csproj -c Release -o ./publish
+
+      # Prepare WebJob folder structure
+      - name: Prepare WebJob package
+        run: |
+          mkdir -p package/App_Data/jobs/continuous/Automate
+          cp -r ./publish/* package/App_Data/jobs/continuous/Automate/
+          echo "@echo off" > package/App_Data/jobs/continuous/Automate/run.cmd
+          echo "dotnet MLModelApi.dll" >> package/App_Data/jobs/continuous/Automate/run.cmd
+
+      - name: Zip package
+        run: |
+          powershell Compress-Archive -Path package/* -DestinationPath StayAccessWebJob.zip -Force
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: webjob-package
+          path: StayAccessWebJob.zip
+
+  deploy:
+    needs: build
+    runs-on: windows-latest
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: webjob-package
+          path: .
+
+      - name: Deploy Continuous WebJob to Azure
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+          slot-name: 'production'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: StayAccessWebJob.zip
+          deployment-method: zipDeploy   # ✅ force ZipDeploy
