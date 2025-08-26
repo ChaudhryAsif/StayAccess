@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'StayAccess/Automate/**'
-  workflow_dispatch:   # allow manual trigger too
+
 
 jobs:
   build:
