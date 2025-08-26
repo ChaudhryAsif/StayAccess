@@ -25,10 +25,10 @@ jobs:
         run: dotnet restore Automate/Automate.csproj
 
       - name: Build
-        run: dotnet build /Automate/Automate.csproj --configuration Release --no-restore
+        run: dotnet build Automate/Automate.csproj --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ./Automate/Automate.csproj -c Release -o ./publish
+        run: dotnet publish Automate/Automate.csproj -c Release -o ./publish
 
       # Prepare WebJob folder structure
       - name: Prepare WebJob package
