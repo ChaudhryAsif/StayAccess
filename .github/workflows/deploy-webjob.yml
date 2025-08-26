@@ -22,7 +22,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore /Automate/Automate.csproj
+        run: dotnet restore Automate/Automate.csproj
 
       - name: Build
         run: dotnet build /Automate/Automate.csproj --configuration Release --no-restore
