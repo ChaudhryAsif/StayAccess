@@ -1,11 +1,12 @@
-name: Deploy Continuous WebJob
+name: Deploy StayAccess Automate Job
 
 on:
   push:
     branches:
       - main
+      - develop
     paths:
-      - 'StayAccess/Automate/**'
+      - 'Automate/**'
   workflow_dispatch:   # allow manual trigger too
 
 jobs:
@@ -22,13 +23,13 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore StayAccess/Automate/Automate.csproj
+        run: dotnet restore Automate/Automate.csproj
 
       - name: Build
-        run: dotnet build StayAccess/Automate/Automate.csproj --configuration Release --no-restore
+        run: dotnet build Automate/Automate.csproj --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish StayAccess/Automate/Automate.csproj -c Release -o ./publish
+        run: dotnet publish Automate/Automate.csproj -c Release -o ./publish
 
       # Prepare WebJob folder structure
       - name: Prepare WebJob package
@@ -50,6 +51,7 @@ jobs:
 
   deploy:
     needs: build
+    if: github.ref == 'refs/heads/main'   # 🚀 only deploy when pushing to main
     runs-on: windows-latest
 
     steps:
@@ -59,11 +61,11 @@ jobs:
           name: webjob-package
           path: .
 
-      - name: Deploy Continuous WebJob to Azure
+      - name: Deploy StayAccess Automate Job to Azure
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
           slot-name: 'production'
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: StayAccessWebJob.zip
-          deployment-method: zipDeploy   # ✅ force ZipDeploy
+          deployment-method: zipDeploy
