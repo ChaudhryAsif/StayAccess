@@ -14,7 +14,7 @@ namespace Automate
             this.scheduler = scheduler;
             this.configuration = configuration;
         }
-        // testing
+        // testing.
         public void Start()
         {
             ScheduleJob<LockCodeTrackingJob>(LockCodeTrackingJob.JobName, configuration.GetValue<string>("LockCodeTrackingJobTime"));
